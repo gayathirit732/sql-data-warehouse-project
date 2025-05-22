@@ -2,7 +2,7 @@ use master;
 go
 create database DataWarehouse;
 go
-use DataWarehouse
+use DataWarehouse;
 go
 create schema bronze;
 go
