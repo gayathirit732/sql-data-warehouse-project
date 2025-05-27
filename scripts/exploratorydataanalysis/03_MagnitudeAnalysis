@@ -1,0 +1,64 @@
+--Total number of customers by country
+select
+country,
+count(customer_key) as No_of_customers
+from gold.dim_customers
+group by country
+order by count(customer_key) desc
+
+--Total number of customers by gender
+select
+gender,
+count(customer_key) as No_of_customers
+from gold.dim_customers
+group by gender
+order by count(customer_key) desc
+
+--Total number of products by category
+select
+category,
+COUNT(product_key) as No_of_products
+from gold.dim_products
+group by category
+order by No_of_products desc
+
+--Average cost in each category
+select
+category,
+AVG(cost) as Avg_cost
+from gold.dim_products
+group by category
+order by Avg_cost desc
+
+--Total revenue for each category
+select
+p.category,
+sum(f.sales_amount) as Total_sales
+from gold.dim_products p
+left join gold.fact_sales f
+on p.product_key = f.product_key
+group by p.category
+order by Total_sales desc
+
+--Total revenue by customer
+select
+c.customer_key,
+c.first_name,
+sum(f.sales_amount) as Total_sales
+from gold.dim_customers c
+left join gold.fact_sales f
+on c.customer_key= f.customer_key
+group by c.customer_key, c.first_name
+order by Total_sales desc
+
+--Distribution of sold items across countries
+select
+c.country,
+sum(f.sales_amount) as Total_sales
+from gold.dim_customers c
+left join gold.fact_sales f
+on c.customer_key= f.customer_key
+group by c.country
+order by Total_sales desc
+
+
