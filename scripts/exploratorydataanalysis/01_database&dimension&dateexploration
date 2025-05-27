@@ -1,1 +1,21 @@
+select * from INFORMATION_SCHEMA.TABLES;
 
+select * from INFORMATION_SCHEMA.COLUMNS;
+
+select distinct country from gold.dim_customers;
+
+select distinct category, subcategory, product_name from gold.dim_products;
+
+-- Finding the first and last order date and the difference between them
+select 
+MIN(order_date) as first_order,
+MAX(order_date) as last_order,
+DATEDIFF(YEAR, MIN(order_date), MAX(order_date)) as time_between_orders
+from gold.fact_sales;
+
+-- Finding the youngest and oldest customer
+select
+max(birthdate) as youngest,
+min(birthdate) as oldest,
+DATEDIFF(YEAR, min(birthdate), max(birthdate)) as datedifference
+from gold.dim_customers;
