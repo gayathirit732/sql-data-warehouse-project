@@ -1,0 +1,23 @@
+--Calculate the total sales per year and running total
+select *,
+sum(total_sales) over (order by order_date  rows between unbounded preceding and current row ) as running_total
+from(
+select 
+DATETRUNC(YEAR, order_date) as order_date,
+sum(sales_amount) as total_sales
+from gold.fact_sales
+where order_date is not null
+group by DATETRUNC(YEAR, order_date)
+)t
+
+--Calculate the moving average of sales per year
+select *,
+avg(total_sales) over (order by order_date  rows between 1 preceding and 1 following ) as running_total
+from(
+select 
+DATETRUNC(YEAR, order_date) as order_date,
+sum(sales_amount) as total_sales
+from gold.fact_sales
+where order_date is not null
+group by DATETRUNC(YEAR, order_date)
+)t
